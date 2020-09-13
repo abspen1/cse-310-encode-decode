@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="1ceeaf90-6e31-4ed5-a0c6-4ff990fad837" name="ASU SFTP">
+        <fileTransfer rootFolder="/afs/asu.edu/users/a/b/s/abspence" accessType="SFTP" host="general.asu.edu" port="22" sshConfigId="249a680d-952c-4cc4-8ed3-56550a694da0" sshConfig="abspence@general.asu.edu:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
