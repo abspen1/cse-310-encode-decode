@@ -3,6 +3,9 @@
 
 using namespace std;
 
+// Global variable declaration:
+int sort_algorithm = 0;
+
 /**
 shift given string: 
 Take substring(not including first char)
@@ -109,9 +112,13 @@ void encode(string &str, int lines)
         str2[i] = str;
     }
 
-    // insertionSort(str2, n);
-
-    quickSort(str2, 0, n - 1);
+    // If the comparison is == 0 then run quick sort since our argument was "quick"
+    if (sort_algorithm == 0){
+        quickSort(str2, 0, n - 1);
+    } else // Run insertion is sort_algorithm does not equal 0
+    {
+        insertionSort(str2, n);
+    }
 
     int originalLocation;
     string last[n];
@@ -132,8 +139,12 @@ void encode(string &str, int lines)
     printEncodedLine(last, n);    
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    const char *quick = "quick";
+    // Set global variable = to the comparison of our second argument and "quick"
+    sort_algorithm = strcmp(argv[1], quick);
+
     string str;
     int lines = 0;
 

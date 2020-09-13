@@ -60,15 +60,6 @@ void quickSort(int arr[], int low, int high)
     }
 }
 
-//print our arrays
-void printArray(int myArr[], int n)
-{
-    int i;
-    for (i = 0; i < n; i++)
-        cout << myArr[i] << " ";
-    cout << endl;
-}
-
 // shift function that will shift our string by 1 each time it is called
 void shift(string & s)
 {
@@ -139,7 +130,7 @@ void encode(string & str, int lines)
         // append our string last with the final character in str2
         last[i] = str2[i].back();
         // check if the current str2 is our original string
-        if (str2[i].compare(original) == 0)
+        if (str2[i] == original)
         {
             // If it is our original string set originalLocation equal to the index we are at
             originalLocation = i;
