@@ -2,12 +2,67 @@
 
 using namespace std;
 
-void shift(string &s)
+void insertionSort(string str2[], int nElements)
 {
-    reverse(s.begin(), s.begin() + 1);
-    reverse(s.begin() + 1, s.end());
-    reverse(s.begin(), s.end());
+    int x, y;
+    string key;
+    for (x = 1; x < nElements; x++)
+    {
+        key = str2[x];
+        y = x - 1;
+        while (y >= 0 && str2[y] > key)
+        {
+            str2[y + 1] = str2[y];
+            y = y - 1;
+        }
+        str2[y + 1] = key;
+    }
 }
+
+// Swap two elements - Utility function
+void swap(string *a, string *b)
+{
+    string t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// partition the str2ay using last element as pivot
+int partition(string str2[], int low, int high)
+{
+    string pivot = str2[high]; // pivot
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++)
+    {
+        //if current element is smaller than pivot, increment the low element
+        //swap elements at i and j
+        if (str2[j] <= pivot)
+        {
+            i++; // increment index of smaller element
+            swap(&str2[i], &str2[j]);
+        }
+    }
+    swap(&str2[i + 1], &str2[high]);
+    return (i + 1);
+}
+
+//quicksort algorithm
+void quickSort(string str2[], int low, int high)
+{
+    if (low < high)
+    {
+        //partition the str2
+        int pivot = partition(str2, low, high);
+
+        //sort the sub str2 independently
+        quickSort(str2, low, pivot - 1);
+        quickSort(str2, pivot + 1, high);
+    }
+}
+
+// shift our string by taking substring that doesn't include first char, then add first char to end
+void shift(string &s){s = s.substr(1, 25) + s.substr(0, 1);}
 
 void printChar(const string &s)
 {
@@ -39,18 +94,9 @@ void doStuff(string &str, int lines)
         str2[i] = str;
     }
 
-    for (int i = 0; i < n - 1; ++i)
-    {
-        for (int j = i + 1; j < n; ++j)
-        {
-            if (str2[i] > str2[j])
-            {
-                temp = str2[i];
-                str2[i] = str2[j];
-                str2[j] = temp;
-            }
-        }
-    }
+    // insertionSort(str2, n);
+
+    quickSort(str2, 0, n-1);
 
     int originalLocation;
     string last[n];
@@ -89,7 +135,7 @@ void doStuff(string &str, int lines)
 int main()
 {
     string str;
-    str = "End of Project Gutenberg Etext of Anne of Avonlea.";
+    str = "Mississippi";
     int lines = 0;
     doStuff(str, lines);
 

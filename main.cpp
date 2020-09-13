@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void iSort(int myarr[], int nElements)
+void insertionSort(int myarr[], int nElements)
 {
     int x, key, y;
     for (x = 1; x < nElements; x++)
@@ -69,24 +69,39 @@ void printArray(int myArr[], int n)
     cout << endl;
 }
 
-void shift(string &s)
+// shift function that will shift our string by 1 each time it is called
+void shift(string & s)
 {
     reverse(s.begin(), s.begin() + 1);
     reverse(s.begin() + 1, s.end());
     reverse(s.begin(), s.end());
 }
 
-void printChar(const string &s)
+void printEncodedLine(string last[], int n)
 {
-    for (string::size_type i = 0; i < s.size(); i++) {
-        cout << s[i] << ' ';
+    int num = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (last[i] == last[i + 1])
+        {
+            num++;
+            continue;
+        }
+        cout << num << " " << last[i];
+        if (i != n)
+        {
+            cout << " ";
+        }
+        num = 1;
     }
-    cout << endl;
 }
 
-void doStuff(string &str, int lines) {
+void encode(string & str, int lines)
+{
     // cout << "input: " << str << endl;
-    if (lines != 0){
+    if (lines != 0)
+    {
         cout << endl;
     }
     int n = str.size();
@@ -95,11 +110,11 @@ void doStuff(string &str, int lines) {
     str2[0] = str;
     original = str;
 
-    // cout << "input shifted 0: " << str << endl;
     for (string::size_type i = 1; i < (n); i++)
     {
+        // shift our string by 1
         shift(str);
-        // cout << "input shifted " << i << ": " << str << endl;
+        // append our str2 string array with each shift of str
         str2[i] = str;
     }
 
@@ -121,31 +136,18 @@ void doStuff(string &str, int lines) {
 
     for (int i = 0; i < n; ++i)
     {
-        // cout << "lexicographical sort " << i << ": " << str2[i] << endl;
+        // append our string last with the final character in str2
         last[i] = str2[i].back();
+        // check if the current str2 is our original string
         if (str2[i].compare(original) == 0)
         {
+            // If it is our original string set originalLocation equal to the index we are at
             originalLocation = i;
         }
     }
+    // Print the index of our original string
     cout << originalLocation << endl;
-
-    int num = 1;
-
-    for (int i = 0; i < n; i++)
-    {
-        if (last[i] == last[i + 1])
-        {
-            num++;
-            continue;
-        }
-        cout << num << " " << last[i];
-        if (i != n)
-        {
-            cout << " ";
-        }
-        num = 1;
-    }
+    printEncodedLine(last, n);
 }
 
 //main method
@@ -153,15 +155,21 @@ int main()
 {
     string str;
     int lines = 0;
+
+    // While there is input in the txt file, set str equal to the current line
     while (getline(cin, str))
     {
-        if (!str.empty()){
-            doStuff(str, lines);
-        } else
+        // If the line isn't empty, encode the line
+        if (!str.empty())
         {
+            encode(str, lines);
+        }
+        else
+        {
+            // If the line is empty, print an empty line
             cout << endl;
         }
-        
+        // Increment number of lines, this is used to tell the encoding function to print an EOL
         lines++;
     }
 
@@ -177,12 +185,13 @@ int main()
     }
     else
     {
-        if (str.empty()){
+        if (str.empty())
+        {
+            // Add empty line if file ends with an empty line
             cout << endl;
         }
         // end of file
     }
-    
 
     return 0;
 }
