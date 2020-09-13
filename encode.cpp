@@ -1,25 +1,178 @@
 #include <iostream>
 #include <string>
 
-int main(int argc, char* argv[])
-{
-    std::cout << argv << std::endl;
-    std::string algo;
-    std::cin >> algo;
-    std::cout << "algo: " << algo << std::endl;
-    std::string quickSort = "quick";
+using namespace std;
 
-    if (algo.compare(quickSort) == 0){
-        std::cout << "Running quicksort";
+/**
+shift given string: 
+Take substring(not including first char)
+Take substring of only first char and add it to the end of first substring
+*/
+void shift(string &s) { s = s.substr(1, 25) + s.substr(0, 1); }
+
+// insertion sort
+void insertionSort(string str2[], int n)
+{
+    int x, y;
+    string key;
+    for (x = 1; x < n; x++)
+    {
+        key = str2[x];
+        y = x - 1;
+        while (y >= 0 && str2[y] > key)
+        {
+            str2[y + 1] = str2[y];
+            y = y - 1;
+        }
+        str2[y + 1] = key;
+    }
+}
+
+// swap two strings
+void swap(string *a, string *b)
+{
+    string t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// partition str2 using last string as pivot
+int partition(string str2[], int low, int high)
+{
+    string pivot = str2[high]; // pivot
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++)
+    {
+        //if current string is smaller than pivot, increment the low string
+        //swap strings at i and j
+        if (str2[j] <= pivot)
+        {
+            i++; // increment index of smaller string
+            swap(&str2[i], &str2[j]);
+        }
+    }
+    swap(&str2[i + 1], &str2[high]);
+    return (i + 1);
+}
+
+//quicksort algorithm
+void quickSort(string str2[], int low, int high)
+{
+    if (low < high)
+    {
+        //partition the str2
+        int pivot = partition(str2, low, high);
+
+        //sort the sub str2 independently
+        quickSort(str2, low, pivot - 1);
+        quickSort(str2, pivot + 1, high);
+    }
+}
+
+void printEncodedLine(string last[], int n)
+{
+    int num = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (last[i] == last[i + 1])
+        {
+            num++;
+            continue;
+        }
+        cout << num << " " << last[i];
+        if (i != n)
+        {
+            cout << " ";
+        }
+        num = 1;
+    }
+}
+
+void encode(string &str, int lines)
+{
+    // cout << "input: " << str << endl;
+    if (lines != 0)
+    {
+        cout << endl;
+    }
+    int n = str.size();
+
+    string str2[n], temp, original;
+    str2[0] = str;
+    original = str;
+
+    for (string::size_type i = 1; i < (n); i++)
+    {
+        shift(str);
+        str2[i] = str;
+    }
+
+    // insertionSort(str2, n);
+
+    quickSort(str2, 0, n - 1);
+
+    int originalLocation;
+    string last[n];
+
+    for (int i = 0; i < n; ++i)
+    {
+        // append our string last with the final character in str2
+        last[i] = str2[i].back();
+        // check if the current str2 is our original string
+        if (str2[i].compare(original) == 0)
+        {
+            // If it is our original string set originalLocation equal to the index we are at
+            originalLocation = i;
+        }
+    }
+    // Print the index of our original string
+    cout << originalLocation << endl;
+    printEncodedLine(last, n);    
+}
+
+int main()
+{
+    string str;
+    int lines = 0;
+
+    // While there is input in the txt file, set str equal to the current line
+    while (getline(cin, str))
+    {
+        // If the line isn't empty, encode the line
+        if (!str.empty())
+        {
+            encode(str, lines);
+        }
+        else
+        {
+            // If the line is empty, print an empty line
+            cout << endl;
+        }
+        // Increment number of lines, this is used to tell the encoding function to print an EOL
+        lines++;
+    }
+
+    if (cin.bad())
+    {
+        cout << "IO error" << endl;
+        // IO error
+    }
+    else if (!cin.eof())
+    {
+        cout << "format error" << endl;
+        // format error
     }
     else
     {
-        std::cout << "Running insertion sort" << std::endl;
+        if (str.empty())
+        {
+            // Add empty line if file ends with an empty line
+            cout << endl;
+        }
+        // end of file
     }
-
-    int txt = std::cin.get();
-    std::cout << txt << std::endl;
-    
 
     return 0;
 }
