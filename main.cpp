@@ -177,6 +177,9 @@ int main()
     }
     else
     {
+        if (str.empty()){
+            cout << endl;
+        }
         // end of file
     }
     
