@@ -155,7 +155,13 @@ int main()
     int lines = 0;
     while (getline(cin, str))
     {
-        doStuff(str, lines);
+        if (!str.empty()){
+            doStuff(str, lines);
+        } else
+        {
+            cout << endl;
+        }
+        
         lines++;
     }
 
