@@ -103,7 +103,8 @@ void encode(string &str, int lines)
     }
     int n = str.size();
 
-    string str2[n], temp, original;
+    string* str2 = new string[n];
+    string original;
     str2[0] = str;
     original = str;
 
