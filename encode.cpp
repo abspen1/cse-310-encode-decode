@@ -41,14 +41,14 @@ void swap(string *a, string *b)
 }
 
 // partition str2 using last string as pivot
-int partition(string str2[], int low, int high)
+int partition(string str2[], int left, int right)
 {
-    string pivot = str2[high]; // pivot
-    int i = (low - 1);
+    string pivot = str2[right]; // pivot
+    int i = (left - 1);
 
-    for (int j = low; j <= high - 1; j++)
+    for (int j = left; j <= right - 1; j++)
     {
-        //if current string is smaller than pivot, increment the low string
+        //if current string is smaller than pivot, increment the left string
         //swap strings at i and j
         if (str2[j] <= pivot)
         {
@@ -56,21 +56,22 @@ int partition(string str2[], int low, int high)
             swap(&str2[i], &str2[j]);
         }
     }
-    swap(&str2[i + 1], &str2[high]);
+    // swap in pivot and return its position
+    swap(&str2[i + 1], &str2[right]);
     return (i + 1);
 }
 
 //quicksort algorithm
-void quickSort(string str2[], int low, int high)
+void quickSort(string str2[], int left, int right)
 {
-    if (low < high)
+    if (left < right)
     {
         //partition the str2
-        int pivot = partition(str2, low, high);
+        int pivot = partition(str2, left, right);
 
         //sort the sub str2 independently
-        quickSort(str2, low, pivot - 1);
-        quickSort(str2, pivot + 1, high);
+        quickSort(str2, left, pivot - 1);
+        quickSort(str2, pivot + 1, right);
     }
 }
 
