@@ -135,7 +135,7 @@ void doStuff(string &str, int lines)
 int main()
 {
     string str;
-    str = "Mississippi";
+    str = "End of Project Gutenberg Etext of Anne of Avonlea.";
     int lines = 0;
     doStuff(str, lines);
 
