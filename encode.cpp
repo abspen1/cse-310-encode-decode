@@ -1,9 +1,19 @@
+/**
+    CSE-310 P1: Take input and output encoded version of the input
+    @file encode.cpp
+    @author Austin Spencer
+    @version Milestone 09/15/20
+*/
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-// insertion sort with string pointer parameter
+/**
+    Sorts string array via insertion sort
+    @param str2 pointer to the string array
+    @param n number of strings in array
+*/
 void insertionSort(string *str2, int n)
 {
     int x, y;
@@ -21,7 +31,11 @@ void insertionSort(string *str2, int n)
     }
 }
 
-// swap two strings
+/**
+    Swap helper function
+    @param a pointer to the smaller string
+    @param b pointer to the larger string
+*/
 void swap(string *a, string *b)
 {
     string t = *a;
@@ -29,7 +43,12 @@ void swap(string *a, string *b)
     *b = t;
 }
 
-// partition str2 using last string as pivot
+/**
+    Partition using last string as pivot
+    @param str2 string array
+    @param left smaller integer
+    @param right larger integer
+*/
 int partition(string str2[], int left, int right)
 {
     string pivot = str2[right]; // pivot
@@ -50,7 +69,12 @@ int partition(string str2[], int left, int right)
     return (i + 1);
 }
 
-// quicksort algorithm
+/**
+    Sorts given string array via quicksort
+    @param str2 string array
+    @param left starting index
+    @param right largest index
+*/
 void quickSort(string str2[], int left, int right)
 {
     if (left < right)
@@ -64,6 +88,11 @@ void quickSort(string str2[], int left, int right)
     }
 }
 
+/**
+    Formats our output and prints the encoded line with std::cout
+    @param last pointer to string of each final character of sorted string array
+    @param n number of characters in string last
+*/
 void printEncodedLine(string* last, int n)
 {
     int num = 1;
@@ -89,7 +118,11 @@ void printEncodedLine(string* last, int n)
     }
 }
 
-
+/**
+    The main function; reads input and calls other functions
+    @param argc number of command line arguments
+    @param argv array of each argument
+*/
 int main(int argc, char** argv)
 {
     // Set variable keyword as the value of our second cmd line argument
