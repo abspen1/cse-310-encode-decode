@@ -2,11 +2,11 @@
 
 using namespace std;
 
-void insertionSort(string str2[], int nElements)
+void insertionSort(string* str2, int n)
 {
     int x, y;
     string key;
-    for (x = 1; x < nElements; x++)
+    for (x = 1; x < n; x++)
     {
         key = str2[x];
         y = x - 1;
@@ -62,7 +62,7 @@ void quickSort(string str2[], int low, int high)
 }
 
 // shift our string by taking substring that doesn't include first char, then add first char to end
-void shift(string &s){s = s.substr(1, 25) + s.substr(0, 1);}
+void shift(string s){s = s.substr(1, 25) + s.substr(0, 1);}
 
 void printChar(const string &s)
 {
@@ -73,30 +73,25 @@ void printChar(const string &s)
     cout << endl;
 }
 
-void doStuff(string &str, int lines)
+void doStuff(string& str, int n)
 {
-    // cout << "input: " << str << endl;
-    if (lines != 0)
-    {
-        cout << endl;
-    }
-    int n = str.size();
-
-    string str2[n], temp, original;
+    string *str2 = new string[n];
+    string original;
     str2[0] = str;
     original = str;
 
     // cout << "input shifted 0: " << str << endl;
     for (string::size_type i = 1; i < (n); i++)
     {
-        shift(str);
+        str = str.substr(1, 25) + str.substr(0, 1);
         // cout << "input shifted " << i << ": " << str << endl;
         str2[i] = str;
     }
+    
+    // Pass the address of the string array at index 0
+    insertionSort(&str2[0], n);
 
-    // insertionSort(str2, n);
-
-    quickSort(str2, 0, n-1);
+    // quickSort(str2, 0, n-1);
 
     int originalLocation;
     string last[n];
@@ -135,9 +130,9 @@ void doStuff(string &str, int lines)
 int main()
 {
     string str;
-    str = "End of Project Gutenberg Etext of Anne of Avonlea.";
+    str = "Mississippi";
     int lines = 0;
-    doStuff(str, lines);
+    doStuff(str, str.size());
 
     return 0;
 }

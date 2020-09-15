@@ -1,21 +1,10 @@
 #include <iostream>
 #include <string>
-#include <string.h>
 
 using namespace std;
 
-// Global variable declaration:
-int sort_algorithm = 0;
-
-/**
-shift given string: 
-Take substring(not including first char)
-Take substring of only first char and add it to the end of first substring
-*/
-void shift(string &s) { s = s.substr(1, 25) + s.substr(0, 1); }
-
-// insertion sort
-void insertionSort(string str2[], int n)
+// insertion sort with string pointer parameter
+void insertionSort(string *str2, int n)
 {
     int x, y;
     string key;
@@ -48,11 +37,11 @@ int partition(string str2[], int left, int right)
 
     for (int j = left; j <= right - 1; j++)
     {
-        //if current string is smaller than pivot, increment the left string
-        //swap strings at i and j
+        // if current string is smaller than pivot, increment the left string
         if (str2[j] <= pivot)
         {
             i++; // increment index of smaller string
+			// swap strings at i and j
             swap(&str2[i], &str2[j]);
         }
     }
@@ -61,93 +50,50 @@ int partition(string str2[], int left, int right)
     return (i + 1);
 }
 
-//quicksort algorithm
+// quicksort algorithm
 void quickSort(string str2[], int left, int right)
 {
     if (left < right)
     {
-        //partition the str2
+        // partition the str2
         int pivot = partition(str2, left, right);
 
-        //sort the sub str2 independently
+        // sort the sub str2 (divide & conquer)
         quickSort(str2, left, pivot - 1);
         quickSort(str2, pivot + 1, right);
     }
 }
 
-void printEncodedLine(string last[], int n)
+void printEncodedLine(string* last, int n)
 {
     int num = 1;
-
+    // iterate through entire string array
     for (int i = 0; i < n; i++)
     {
+        // if next letter is the same as current just increment num and continue for loop
         if (last[i] == last[i + 1])
         {
             num++;
             continue;
         }
         cout << num << " " << last[i];
-        if (i != n)
+        
+        // if statement to avoid printing extra space at the end
+        if (i != (n-1))
         {
             cout << " ";
         }
+
+        // reset num to 1
         num = 1;
     }
 }
 
-void encode(string &str, int lines)
-{
-    // cout << "input: " << str << endl;
-    if (lines != 0)
-    {
-        cout << endl;
-    }
-    int n = str.size();
-
-    string* str2 = new string[n];
-    string original;
-    str2[0] = str;
-    original = str;
-
-    for (string::size_type i = 1; i < (n); i++)
-    {
-        shift(str);
-        str2[i] = str;
-    }
-
-    // If the comparison is == 0 then run quick sort since our argument was "quick"
-    if (sort_algorithm == 0){
-        quickSort(str2, 0, n - 1);
-    } else // Run insertion is sort_algorithm does not equal 0
-    {
-        insertionSort(str2, n);
-    }
-
-    int originalLocation;
-    string last[n];
-
-    for (int i = 0; i < n; ++i)
-    {
-        // append our string last with the final character in str2
-        last[i] = str2[i].back();
-        // check if the current str2 is our original string
-        if (str2[i].compare(original) == 0)
-        {
-            // If it is our original string set originalLocation equal to the index we are at
-            originalLocation = i;
-        }
-    }
-    // Print the index of our original string
-    cout << originalLocation << endl;
-    printEncodedLine(last, n);    
-}
 
 int main(int argc, char** argv)
 {
-    const char *quick = "quick";
-    // Set global variable = to the comparison of our second argument and "quick"
-    sort_algorithm = strcmp(argv[1], quick);
-
+    // Set variable keyword as the value of our second cmd line argument
+    string keyword = argv[1];
     string str;
     int lines = 0;
 
@@ -157,26 +103,81 @@ int main(int argc, char** argv)
         // If the line isn't empty, encode the line
         if (!str.empty())
         {
-            encode(str, lines);
+            if (lines != 0)
+            {
+                cout << endl;
+            } else
+            {
+                // Increment number of lines, this will allow to skip first line and add EOL to the rest
+                lines++;
+            }
+            
+            int n = str.size();
+            // Initialize str2 (string array we will be sorting)
+            string *str2 = new string[n];
+
+            string original = str;
+            str2[0] = str;
+
+            for (string::size_type i = 1; i < (n); i++)
+            {
+                /**
+                shift given string:
+                Take substring(not including first char)
+                Take substring of only first char and add it to the end of first substring
+                */
+                str = str.substr(1, 25) + str.substr(0, 1);
+                // append each shift into str2 array
+                str2[i] = str;
+            }
+
+            // Check keyword for which sorting algorithm to use
+            if (keyword == "quick")
+            {
+                quickSort(str2, 0, n - 1);
+            }
+            else if (keyword == "insertion")
+            {
+                insertionSort(&str2[0], n);
+            }
+            else
+            {
+                cout << "invalid command line argument" << endl;
+                return -1; // return non-zero since an error occurred
+            }
+
+            int originalLocation;
+            string last[n];
+
+            for (int i = 0; i < n; ++i)
+            {
+                // append our string last with the final character in str2
+                last[i] = str2[i].back();
+                // check if the current str2 is our original string
+                if (str2[i] == original)
+                {
+                    // If it is our original string set originalLocation equal to the index we are at
+                    originalLocation = i;
+                }
+            }
+            // Print the index of our original string
+            cout << originalLocation << endl;
+            printEncodedLine(last, n);
         }
         else
         {
             // If the line is empty, print an empty line
             cout << endl;
         }
-        // Increment number of lines, this is used to tell the encoding function to print an EOL
-        lines++;
     }
 
     if (cin.bad())
     {
         cout << "IO error" << endl;
-        // IO error
     }
     else if (!cin.eof())
     {
         cout << "format error" << endl;
-        // format error
     }
     else
     {
@@ -189,4 +190,4 @@ int main(int argc, char** argv)
     }
 
     return 0;
-}
+} // End of program
