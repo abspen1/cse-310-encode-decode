@@ -11,23 +11,23 @@ using namespace std;
 
 /**
     Sorts string array via insertion sort
-    @param str2 pointer to the string array
+    @param first pointer to the string array
     @param n number of strings in array
 */
-void insertionSort(char *str2, int n)
+void insertionSort(char* first, int n)
 {
     int x, y;
     char key;
     for (x = 1; x < n; x++)
     {
-        key = str2[x];
+        key = first[x];
         y = x - 1;
-        while (y >= 0 && str2[y] > key)
+        while (y >= 0 && first[y] > key)
         {
-            str2[y + 1] = str2[y];
+            first[y + 1] = first[y];
             y = y - 1;
         }
-        str2[y + 1] = key;
+        first[y + 1] = key;
     }
 }
 
@@ -93,41 +93,34 @@ void quickSort(string str2[], int left, int right)
     @param decode pointer to string of each final character of sorted string array
     @param n number of characters in string last
 */
-void printDecodedLine(string *decode, int n)
+void printDecodedLine(char* decode, int n)
 {
-    int num = 1;
-    // iterate through entire string array
-    for (int i = 0; i < n; i++)
-    {
-        // if next letter is the same as current just increment num and continue for loop
-        if (decode[i] == decode[i + 1])
-        {
-            num++;
-            continue;
-        }
-        cout << num << " " << decode[i];
-
-        // if statement to avoid printing extra space at the end
-        if (i != (n - 1))
-        {
-            cout << " ";
-        }
-
-        // reset num to 1
-        num = 1;
+    for(int i = 0; i < n; i++){
+        cout << decode[i];
     }
 }
 
-/**
+bool numNotInNext(int num, int* next, int n) {
+    for(int i = 0; i < n; i++) {
+        if (num == next[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+    /**
     The main function; reads input and calls other functions
     @param argc number of command line arguments
     @param argv array of each argument
 */
-int main(int argc, char **argv)
+    int
+    main(int argc, char **argv)
 {
     // Set variable keyword as the value of our second cmd line argument
     string keyword = argv[1];
     string str;
+    int decodeIndex;
     int lines = 0;
 
     // While there is input in the txt file, set str equal to the current line
@@ -140,7 +133,7 @@ int main(int argc, char **argv)
             lines++;
             
             if (lines % 2 != 0){
-                int decodeIndex = stoi(str);
+                decodeIndex = stoi(str);
                 // cout << decodeIndex;
             }else
             {
@@ -148,8 +141,7 @@ int main(int argc, char **argv)
 
                 // cout << str;
                 // Initialize str2 (string array we will be sorting)
-                char str2[n];
-                int arr[n];
+                char last[n];
                 int charCount = 0;
                 int j = 0;
                 int num;
@@ -163,7 +155,7 @@ int main(int argc, char **argv)
                     }
                     else {
                         for (int k = 0; k < num; k++){
-                            str2[charCount] = str[i];
+                            last[charCount] = str[i];
                             charCount++;
                         }
                     }
@@ -171,13 +163,32 @@ int main(int argc, char **argv)
                     j++; // increment for just numbers and letters in string
                 }
 
-                for (int i = 0; i < sum; i++) {
-                    cout << str2[i];
+                char first[sum]; // Initialize first char array
+                for (int i =0; i < sum; i++) {
+                    first[i] = last[i];
                 }
-                cout << endl << endl;
-                insertionSort(&str2[0], sum); // Pass the address of our string array
+                insertionSort(&first[0], sum); // Pass the address of our string array
+
+                // Now that I have first and last strings.. need to calculate Next
+                int next[sum]; // initialize next int array
+                // initialize the indexes to -1
                 for (int i = 0; i < sum; i++) {
-                    cout << str2[i];
+                    next[i] = -1;   
+                }
+                char letter;
+                for (int i = 0; i < sum; i++) {
+                    letter = first[i];
+                    for (int k = 0; k < sum; k++) {
+                        if (letter == last[k] && numNotInNext(k, &next[0], sum))
+                        {
+                            // cout << letter << " = " << last[k] << " index: " << k << endl;
+                            next[i] = k;
+                            break;
+                        }
+                    }
+                }
+                for (int i = 0; i < sum; i++) {
+                    cout << next[i] << " ";
                 }
             }
             
