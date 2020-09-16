@@ -14,10 +14,10 @@ using namespace std;
     @param str2 pointer to the string array
     @param n number of strings in array
 */
-void insertionSort(string *str2, int n)
+void insertionSort(char *str2, int n)
 {
     int x, y;
-    string key;
+    char key;
     for (x = 1; x < n; x++)
     {
         key = str2[x];
@@ -158,8 +158,8 @@ int main(int argc, char **argv)
                 for (int i = 0; i < n; i++)
                 {
                     if (j % 2 == 0) {                        
-                        num = atoi(&str[i]);
-                        sum += atoi(&str[i]);
+                        num = atoi(&str[i]); // reset each time so we know how many letters
+                        sum += atoi(&str[i]); // keeps track of total length of str array
                     }
                     else {
                         for (int k = 0; k < num; k++){
@@ -168,10 +168,15 @@ int main(int argc, char **argv)
                         }
                     }
                     i++; // second incrementer to skip over spaces
-                    j++;
+                    j++; // increment for just numbers and letters in string
                 }
 
-                for (int i = 0; i < sum; i++){
+                for (int i = 0; i < sum; i++) {
+                    cout << str2[i];
+                }
+                cout << endl << endl;
+                insertionSort(&str2[0], sum); // Pass the address of our string array
+                for (int i = 0; i < sum; i++) {
                     cout << str2[i];
                 }
             }
