@@ -164,17 +164,14 @@ bool numNotInNext(int num, int* next, int n) {
                 }
 
                 char first[sum]; // Initialize first char array
+                int next[sum]; // initialize next int array
+
                 for (int i =0; i < sum; i++) {
                     first[i] = last[i];
+                    next[i] = -1; // reason for this numNotInNext was giving false positives
                 }
                 insertionSort(&first[0], sum); // Pass the address of our string array
 
-                // Now that I have first and last strings.. need to calculate Next
-                int next[sum]; // initialize next int array
-                // initialize the indexes to -1
-                for (int i = 0; i < sum; i++) {
-                    next[i] = -1;   
-                }
                 char letter;
                 for (int i = 0; i < sum; i++) {
                     letter = first[i];
