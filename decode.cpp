@@ -93,10 +93,16 @@ void quickSort(string str2[], int left, int right)
     @param decode pointer to string of each final character of sorted string array
     @param n number of characters in string last
 */
-void printDecodedLine(char* decode, int n)
+void printDecodedLine(char* first, int* next, int sum, int index)
 {
-    for(int i = 0; i < n; i++){
-        cout << decode[i];
+    string decodedString[sum];
+    decodedString[0] = first[index];
+    cout << decodedString[0];
+
+    for (int i = 1; i < sum; i++) {
+        index = next[index];
+        decodedString[i] = first[index];
+        cout << decodedString[i];
     }
 }
 
@@ -120,7 +126,7 @@ bool numNotInNext(int num, int* next, int n) {
     // Set variable keyword as the value of our second cmd line argument
     string keyword = argv[1];
     string str;
-    int decodeIndex;
+    int index;
     int lines = 0;
 
     // While there is input in the txt file, set str equal to the current line
@@ -133,8 +139,7 @@ bool numNotInNext(int num, int* next, int n) {
             lines++;
             
             if (lines % 2 != 0){
-                decodeIndex = stoi(str);
-                // cout << decodeIndex;
+                index = stoi(str);
             }else
             {
                 int n = str.size();
@@ -178,15 +183,12 @@ bool numNotInNext(int num, int* next, int n) {
                     for (int k = 0; k < sum; k++) {
                         if (letter == last[k] && numNotInNext(k, &next[0], sum))
                         {
-                            // cout << letter << " = " << last[k] << " index: " << k << endl;
                             next[i] = k;
                             break;
                         }
                     }
                 }
-                for (int i = 0; i < sum; i++) {
-                    cout << next[i] << " ";
-                }
+                printDecodedLine(&first[0], &next[0], sum, index);
             }
             
         }
