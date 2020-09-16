@@ -60,7 +60,7 @@ int partition(string str2[], int left, int right)
         if (str2[j] <= pivot)
         {
             i++; // increment index of smaller string
-			// swap strings at i and j
+                 // swap strings at i and j
             swap(&str2[i], &str2[j]);
         }
     }
@@ -93,7 +93,7 @@ void quickSort(string str2[], int left, int right)
     @param last pointer to string of each final character of sorted string array
     @param n number of characters in string last
 */
-void printEncodedLine(string* last, int n)
+void printEncodedLine(string *last, int n)
 {
     int num = 1;
     // iterate through entire string array
@@ -106,9 +106,9 @@ void printEncodedLine(string* last, int n)
             continue;
         }
         cout << num << " " << last[i];
-        
+
         // if statement to avoid printing extra space at the end
-        if (i != (n-1))
+        if (i != (n - 1))
         {
             cout << " ";
         }
@@ -123,7 +123,7 @@ void printEncodedLine(string* last, int n)
     @param argc number of command line arguments
     @param argv array of each argument
 */
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     // Set variable keyword as the value of our second cmd line argument
     string keyword = argv[1];
@@ -139,15 +139,16 @@ int main(int argc, char** argv)
             if (lines != 0)
             {
                 cout << endl;
-            } else
+            }
+            else
             {
                 // Increment number of lines, this will allow to skip first line and add EOL to the rest
                 lines++;
             }
-            
+
             int n = str.size();
             // Initialize str2 (string array we will be sorting)
-            string *str2 = new string[n];
+            string str2[n];
 
             string original = str;
             str2[0] = str;
@@ -159,7 +160,7 @@ int main(int argc, char** argv)
                 Take substring(not including first char)
                 Take substring of only first char and add it to the end of first substring
                 */
-                str = str.substr(1, 25) + str.substr(0, 1);
+                str = str.substr(1, (n - 1)) + str.substr(0, 1);
                 // append each shift into str2 array
                 str2[i] = str;
             }
@@ -171,7 +172,7 @@ int main(int argc, char** argv)
             }
             else if (keyword == "insertion")
             {
-                insertionSort(&str2[0], n);
+                insertionSort(&str2[0], n); // Pass the address of our string array
             }
             else
             {
