@@ -130,18 +130,20 @@ bool numNotInNext(int num, int* next, int n) {
     int lines = 0;
 
     // While there is input in the txt file, set str equal to the current line
-    while (getline(cin, str))
-    {
+    while (getline(cin, str)) {
         // If the line isn't empty, encode the line
-        if (!str.empty())
-        {
-            // Increment number of lines, this will allow to skip first line and add EOL to the rest
+        if (!str.empty()) {
+            // Increment number of lines, this will help us keep track of non-empty lines
             lines++;
-            
+
             if (lines % 2 != 0){
                 index = stoi(str);
-            }else
-            {
+            }else {
+                //Ignore new line for the first line
+                if (lines != 2) {
+                    cout << endl;
+                }
+
                 int n = str.size();
 
                 // cout << str;
@@ -205,7 +207,9 @@ bool numNotInNext(int num, int* next, int n) {
                 }
                 printDecodedLine(&first[0], &next[0], sum, index);
             }
-            
+        } else {
+            // If the line is empty, print an empty line
+            cout << endl;
         }
     }
 
