@@ -129,6 +129,7 @@ int main(int argc, char **argv)
     // Set variable keyword as the value of our second cmd line argument
     string keyword = argv[1];
     string str;
+    bool flag = false;
     int index;
     int lines = 0;
 
@@ -180,6 +181,9 @@ int main(int argc, char **argv)
                         }
                     }
                     else {
+                        if(str[i] != ' '){
+                            flag = true;
+                        }
                         for (int k = 0; k < num; k++) {
                             // decompressing the string
                             last[charCount] = str[i];
@@ -190,44 +194,52 @@ int main(int argc, char **argv)
                     j++; // increment for just numbers and letters in string
                 }
 
-                char first[sum]; // Initialize first char array
-                int next[sum];   // initialize next int array
-
-                for (int i = 0; i < sum; i++) {
-                    first[i] = last[i];
-                    next[i] = -1; // reason for this numNotInNext was giving false positives
-                }
-                // Check keyword for which sorting algorithm to use
-                if (keyword == "quick")
-                {
-                    // quickSort(first, 0, n - 1);
-                    cout << "working on quick sort";
-                    return 0;
-                }
-                else if (keyword == "insertion")
-                {
-                    insertionSort(&first[0], sum); // Pass the address of our string array
-                }
-                else
-                {
-                    cout << "invalid command line argument" << endl;
-                    return -1; // return non-zero since an error occurred
-                }
-
-                char letter;
-                for (int i = 0; i < sum; i++)
-                {
-                    letter = first[i];
-                    for (int k = 0; k < sum; k++)
+                if (!flag) {
+                    for (int k = 0; k < num; k++)
                     {
-                        if (letter == last[k] && numNotInNext(k, &next[0], sum))
+                        cout << last[k];
+                    }
+                } else {
+                    char first[sum]; // Initialize first char array
+                    int next[sum];   // initialize next int array
+
+                    for (int i = 0; i < sum; i++)
+                    {
+                        first[i] = last[i];
+                        next[i] = -1; // reason for this numNotInNext was giving false positives
+                    }
+                    // Check keyword for which sorting algorithm to use
+                    if (keyword == "quick")
+                    {
+                        // quickSort(first, 0, n - 1);
+                        cout << "working on quick sort";
+                        return 0;
+                    }
+                    else if (keyword == "insertion")
+                    {
+                        insertionSort(&first[0], sum); // Pass the address of our string array
+                    }
+                    else
+                    {
+                        cout << "invalid command line argument" << endl;
+                        return -1; // return non-zero since an error occurred
+                    }
+
+                    char letter;
+                    for (int i = 0; i < sum; i++)
+                    {
+                        letter = first[i];
+                        for (int k = 0; k < sum; k++)
                         {
-                            next[i] = k;
-                            break;
+                            if (letter == last[k] && numNotInNext(k, &next[0], sum))
+                            {
+                                next[i] = k;
+                                break;
+                            }
                         }
                     }
+                    printDecodedLine(&first[0], &next[0], sum, index);
                 }
-                printDecodedLine(&first[0], &next[0], sum, index);
             }
         }
         else
