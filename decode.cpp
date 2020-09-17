@@ -175,7 +175,22 @@ bool numNotInNext(int num, int* next, int n) {
                     first[i] = last[i];
                     next[i] = -1; // reason for this numNotInNext was giving false positives
                 }
-                insertionSort(&first[0], sum); // Pass the address of our string array
+                // Check keyword for which sorting algorithm to use
+                if (keyword == "quick")
+                {
+                    // quickSort(first, 0, n - 1);
+                    cout << "working on quick sort";
+                    return 0;
+                }
+                else if (keyword == "insertion")
+                {
+                    insertionSort(&first[0], sum); // Pass the address of our string array
+                }
+                else
+                {
+                    cout << "invalid command line argument" << endl;
+                    return -1; // return non-zero since an error occurred
+                }
 
                 char letter;
                 for (int i = 0; i < sum; i++) {
