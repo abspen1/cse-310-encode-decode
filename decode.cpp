@@ -14,7 +14,7 @@ using namespace std;
     @param first pointer to the string array
     @param n number of strings in array
 */
-void insertionSort(char* first, int n)
+void insertionSort(char *first, int n)
 {
     int x, y;
     char key;
@@ -93,35 +93,38 @@ void quickSort(string str2[], int left, int right)
     @param decode pointer to string of each final character of sorted string array
     @param n number of characters in string last
 */
-void printDecodedLine(char* first, int* next, int sum, int index)
+void printDecodedLine(char *first, int *next, int sum, int index)
 {
     string decodedString[sum];
     decodedString[0] = first[index];
     cout << decodedString[0];
 
-    for (int i = 1; i < sum; i++) {
+    for (int i = 1; i < sum; i++)
+    {
         index = next[index];
         decodedString[i] = first[index];
         cout << decodedString[i];
     }
 }
 
-bool numNotInNext(int num, int* next, int n) {
-    for(int i = 0; i < n; i++) {
-        if (num == next[i]){
+bool numNotInNext(int num, int *next, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (num == next[i])
+        {
             return false;
         }
     }
     return true;
 }
 
-    /**
+/**
     The main function; reads input and calls other functions
     @param argc number of command line arguments
     @param argv array of each argument
 */
-    int
-    main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     // Set variable keyword as the value of our second cmd line argument
     string keyword = argv[1];
@@ -130,38 +133,63 @@ bool numNotInNext(int num, int* next, int n) {
     int lines = 0;
 
     // While there is input in the txt file, set str equal to the current line
-    while (getline(cin, str)) {
+    while (getline(cin, str))
+    {
         // If the line isn't empty, encode the line
-        if (!str.empty()) {
+        if (!str.empty())
+        {
             // Increment number of lines, this will help us keep track of non-empty lines
             lines++;
 
-            if (lines % 2 != 0){
+            if (lines % 2 != 0)
+            {
                 index = stoi(str);
-            }else {
+            }
+            else
+            {
                 //Ignore new line for the first line
-                if (lines != 2) {
+                if (lines != 2)
+                {
                     cout << endl;
                 }
 
                 int n = str.size();
 
-                // cout << str;
-                // Initialize str2 (string array we will be sorting)
                 char last[n];
                 int charCount = 0;
                 int j = 0;
+                string bigNum;
                 int num;
                 int sum = 0;
 
                 for (int i = 0; i < n; i++)
                 {
-                    if (j % 2 == 0) {                        
-                        num = atoi(&str[i]); // reset each time so we know how many letters
-                        sum += atoi(&str[i]); // keeps track of total length of str array
+                    if (j % 2 == 0)
+                    {
+                        if (str[i + 1] != ' ')
+                        {
+                            bigNum = str[i];
+                            int s = 1;
+                            while (str[i + s] != ' ')
+                            {
+                                bigNum = bigNum + str[i + s];
+                                s++;
+                            }
+                            i += (s - 1);
+                            num = stoi(bigNum);
+                            sum += num;
+                        }
+                        else
+                        {
+                            num = atoi(&str[i]);  // reset each time so we know how many letters
+                            sum += atoi(&str[i]); // keeps track of total length of str array
+                        }
                     }
-                    else {
-                        for (int k = 0; k < num; k++){
+                    else
+                    {
+                        for (int k = 0; k < num; k++)
+                        {
+                            // decompressing the string
                             last[charCount] = str[i];
                             charCount++;
                         }
@@ -171,9 +199,10 @@ bool numNotInNext(int num, int* next, int n) {
                 }
 
                 char first[sum]; // Initialize first char array
-                int next[sum]; // initialize next int array
+                int next[sum];   // initialize next int array
 
-                for (int i =0; i < sum; i++) {
+                for (int i = 0; i < sum; i++)
+                {
                     first[i] = last[i];
                     next[i] = -1; // reason for this numNotInNext was giving false positives
                 }
@@ -195,9 +224,11 @@ bool numNotInNext(int num, int* next, int n) {
                 }
 
                 char letter;
-                for (int i = 0; i < sum; i++) {
+                for (int i = 0; i < sum; i++)
+                {
                     letter = first[i];
-                    for (int k = 0; k < sum; k++) {
+                    for (int k = 0; k < sum; k++)
+                    {
                         if (letter == last[k] && numNotInNext(k, &next[0], sum))
                         {
                             next[i] = k;
@@ -207,7 +238,9 @@ bool numNotInNext(int num, int* next, int n) {
                 }
                 printDecodedLine(&first[0], &next[0], sum, index);
             }
-        } else {
+        }
+        else
+        {
             // If the line is empty, print an empty line
             cout << endl;
         }
