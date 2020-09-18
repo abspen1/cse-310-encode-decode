@@ -93,7 +93,7 @@ void quickSort(string str2[], int left, int right)
     @param last pointer to string of each final character of sorted string array
     @param n number of characters in string last
 */
-void printEncodedLine(string *last, int n)
+int printEncodedLine(string *last, int n, int clusters)
 {
     int num = 1;
     // iterate through entire string array
@@ -105,6 +105,7 @@ void printEncodedLine(string *last, int n)
             num++;
             continue;
         }
+        clusters++;
         cout << num << " " << last[i];
 
         // if statement to avoid printing extra space at the end
@@ -116,18 +117,28 @@ void printEncodedLine(string *last, int n)
         // reset num to 1
         num = 1;
     }
+    return clusters;
 }
 
-/**
+void calculateCompression(int clusters, int t) {
+    cout << endl << "t: " << t << " clust: " << clusters << endl;
+    int compRatio = ((float)(t - clusters)/(float)t)*100;
+    cout << "Compression Ratio: " << compRatio << "%" << endl;
+}
+
+    /**
     The main function; reads input and calls other functions
     @param argc number of command line arguments
     @param argv array of each argument
 */
-int main(int argc, char **argv)
+    int
+    main(int argc, char **argv)
 {
     // Set variable keyword as the value of our second cmd line argument
     string keyword = argv[1];
     string str;
+    int clusters = 0;
+    int t = 0;
     int lines = 0;
 
     // While there is input in the txt file, set str equal to the current line
@@ -147,6 +158,7 @@ int main(int argc, char **argv)
             }
 
             int n = str.size();
+            t += n;
             // Initialize str2 (string array we will be sorting)
             string str2[n];
 
@@ -188,7 +200,7 @@ int main(int argc, char **argv)
             {
                 current = str2[i];
                 // append our string last with the final character in str2
-                last[i] = current[(n-1)];
+                last[i] = current[(n - 1)];
                 // check if the current str2 is our original string
                 if (str2[i] == original)
                 {
@@ -198,7 +210,7 @@ int main(int argc, char **argv)
             }
             // Print the index of our original string
             cout << originalLocation << endl;
-            printEncodedLine(last, n);
+            clusters = printEncodedLine(last, n, clusters);
         }
         else
         {
@@ -224,6 +236,7 @@ int main(int argc, char **argv)
         }
         // end of file
     }
+    calculateCompression(clusters, t);
 
     return 0;
 } // End of program
