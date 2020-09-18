@@ -6,6 +6,7 @@
 */
 #include <iostream>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -141,6 +142,8 @@ void calculateCompression(int clusters, int t) {
     int t = 0;
     int lines = 0;
 
+    auto begin = std::chrono::high_resolution_clock::now();
+
     // While there is input in the txt file, set str equal to the current line
     while (getline(cin, str))
     {
@@ -236,6 +239,12 @@ void calculateCompression(int clusters, int t) {
         }
         // end of file
     }
+    // Stop measuring time and calculate the elapsed time
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+
+    cout << endl;
+    printf("Time measured: %.3f seconds.\n", elapsed.count() * 1e-9);
     calculateCompression(clusters, t);
 
     return 0;
