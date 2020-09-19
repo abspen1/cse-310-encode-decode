@@ -6,6 +6,7 @@
 */
 #include <iostream>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -120,19 +121,20 @@ int printEncodedLine(string *last, int n, int clusters)
     return clusters;
 }
 
-void calculateCompression(int clusters, int t) {
-    cout << endl << "t: " << t << " clust: " << clusters << endl;
-    int compRatio = ((float)(t - clusters)/(float)t)*100;
+void calculateCompression(int clusters, int t)
+{
+    cout << endl
+         << "t: " << t << " clust: " << clusters << endl;
+    int compRatio = ((float)(t - clusters) / (float)t) * 100;
     cout << "Compression Ratio: " << compRatio << "%" << endl;
 }
 
-    /**
+/**
     The main function; reads input and calls other functions
     @param argc number of command line arguments
     @param argv array of each argument
 */
-    int
-    main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     // Set variable keyword as the value of our second cmd line argument
     string keyword = argv[1];
@@ -140,6 +142,8 @@ void calculateCompression(int clusters, int t) {
     int clusters = 0;
     int t = 0;
     int lines = 0;
+
+    auto begin = std::chrono::high_resolution_clock::now();
 
     // While there is input in the txt file, set str equal to the current line
     while (getline(cin, str))
@@ -236,7 +240,12 @@ void calculateCompression(int clusters, int t) {
         }
         // end of file
     }
+    // Stop measuring time and calculate the elapsed time
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+
     cout << endl;
+    printf("Time measured: %.3f seconds.\n", elapsed.count() * 1e-9);
     calculateCompression(clusters, t);
 
     return 0;
