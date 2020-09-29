@@ -140,6 +140,14 @@ int main(int argc, char **argv)
     string str;
     int index;
     int lines = 0;
+    /**
+     * The reason for this flag is to control when the entire line consists of just spaces
+     * For some reason which I haven't figured out, in the Anne of Avonlea large txt file
+     * one of the lines is just 100 spaces. This was causing my decoder to output binary
+     * for that line. This flag is avoiding that error by checking if the entire line 
+     * only consists of spaces.
+    */
+    bool flag = false;
 
     // While there is input in the txt file, set str equal to the current line
     while (getline(cin, str))
@@ -164,6 +172,7 @@ int main(int argc, char **argv)
 
                 int n = str.size();
 
+                flag = false;
                 char last[n];
                 int charCount = 0;
                 int j = 0;
@@ -196,6 +205,11 @@ int main(int argc, char **argv)
                     }
                     else
                     {
+                        if (str[i] != ' ')
+                        {
+                            // If the char isn't a space then set the flag to true
+                            flag = true;
+                        }
                         for (int k = 0; k < num; k++)
                         {
                             // decompressing the string
@@ -210,40 +224,56 @@ int main(int argc, char **argv)
                 char first[sum]; // Initialize first char array
                 int next[sum];   // initialize next int array
 
-                for (int i = 0; i < sum; i++)
+                if (!flag)
                 {
-                    first[i] = last[i];
-                    next[i] = -1; // reason for this, numNotInNext was giving false positives
-                }
-                // Check keyword for which sorting algorithm to use
-                if (keyword == "quick")
-                {
-                    quickSort(&first[0], 0, sum - 1);
-                }
-                else if (keyword == "insertion")
-                {
-                    insertionSort(&first[0], sum); // Pass the address of our string array
+                    // If our entire line was spaces, just print out the line
+                    for (int k = 0; k < num; k++)
+                    {
+                        char first[sum]; // Initialize first char array
+                        cout << last[k];
+                        int next[sum]; // initialize next int array
+                    }
                 }
                 else
                 {
-                    cout << "invalid command line argument" << endl;
-                    return -1; // return non-zero since an error occurred
-                }
+                    char first[sum]; // Initialize first char array
+                    int next[sum];   // initialize next int array
 
-                char letter;
-                for (int i = 0; i < sum; i++)
-                {
-                    letter = first[i];
-                    for (int k = 0; k < sum; k++)
+                    for (int i = 0; i < sum; i++)
                     {
-                        if (letter == last[k] && numNotInNext(k, &next[0], sum))
+                        first[i] = last[i];
+                        next[i] = -1; // reason for this, numNotInNext was giving false positives
+                    }
+                    // Check keyword for which sorting algorithm to use
+                    if (keyword == "quick")
+                    {
+                        quickSort(&first[0], 0, sum - 1);
+                    }
+                    else if (keyword == "insertion")
+                    {
+                        insertionSort(&first[0], sum); // Pass the address of our string array
+                    }
+                    else
+                    {
+                        cout << "invalid command line argument" << endl;
+                        return -1; // return non-zero since an error occurred
+                    }
+
+                    char letter;
+                    for (int i = 0; i < sum; i++)
+                    {
+                        letter = first[i];
+                        for (int k = 0; k < sum; k++)
                         {
-                            next[i] = k;
-                            break;
+                            if (letter == last[k] && numNotInNext(k, &next[0], sum))
+                            {
+                                next[i] = k;
+                                break;
+                            }
                         }
                     }
+                    printDecodedLine(&first[0], &next[0], sum, index);
                 }
-                printDecodedLine(&first[0], &next[0], sum, index);
             }
         }
         else
