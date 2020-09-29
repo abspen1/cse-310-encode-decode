@@ -11,8 +11,8 @@ using namespace std;
 
 /**
     Sorts char array via insertion sort
-    @param first pointer to the char array
-    @param n number of chars in array
+    @param first    pointer to the char array
+    @param n        number of chars in array
 */
 void insertionSort(char *first, int n)
 {
@@ -45,13 +45,13 @@ void swap(char *a, char *b)
 
 /**
     Partition using last char as pivot
-    @param first char array
-    @param left smaller integer
-    @param right larger integer
+    @param first    char array
+    @param left     smaller integer
+    @param right    larger integer
 */
 int partition(char* first, int left, int right)
 {
-    char pivot = first[right]; // pivot
+    char pivot = first[right]; // initialize pivot
     int i = (left - 1);
 
     for (int j = left; j <= right - 1; j++)
@@ -60,7 +60,7 @@ int partition(char* first, int left, int right)
         if (first[j] <= pivot)
         {
             i++; // increment index of smaller char array
-                 // swap strings at i and j
+            // swap strings at i and j
             swap(&first[i], &first[j]);
         }
     }
@@ -71,9 +71,9 @@ int partition(char* first, int left, int right)
 
 /**
     Sorts given char array via quicksort
-    @param first char array
-    @param left starting index
-    @param right largest index
+    @param first    char array
+    @param left     starting index
+    @param right    largest index
 */
 void quickSort(char* first, int left, int right)
 {
@@ -160,7 +160,7 @@ int main(int argc, char **argv)
 
             if (lines % 2 != 0)
             {
-                index = stoi(str);
+                index = stoi(str); // Convert given index to an int type
             }
             else
             {
