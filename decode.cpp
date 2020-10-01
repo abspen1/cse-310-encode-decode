@@ -152,7 +152,7 @@ int main(int argc, char **argv)
     // While there is input in the txt file, set str equal to the current line
     while (getline(cin, str))
     {
-        // If the line isn't empty, encode the line
+        // If the line isn't empty, decode the line
         if (!str.empty())
         {
             // Increment number of lines, this will help us keep track of non-empty lines
@@ -182,7 +182,7 @@ int main(int argc, char **argv)
 
                 for (int i = 0; i < n; i++)
                 {
-                    // If j is even then we are looking for an Int
+                    // If j is an even number then we are looking for an Int
                     if (j % 2 == 0)
                     {
                         // This will check to see if the number of letters is more than 9
