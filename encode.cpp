@@ -49,7 +49,7 @@ void swap(string *a, string *b)
     @param left smaller integer
     @param right larger integer
 */
-int partition(string str2[], int left, int right)
+int partition(string *str2, int left, int right)
 {
     string pivot = str2[right]; // pivot
     int i = (left - 1);
@@ -75,7 +75,7 @@ int partition(string str2[], int left, int right)
     @param left starting index
     @param right largest index
 */
-void quickSort(string str2[], int left, int right)
+void quickSort(string *str2, int left, int right)
 {
     if (left < right)
     {
