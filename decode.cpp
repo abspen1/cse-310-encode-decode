@@ -2,7 +2,7 @@
     CSE-310 P1: Take encoded input and output decoded input
     @file decode.cpp
     @author Austin Spencer
-    @version Final 09/15/20
+    @version Final 09/25/20
 */
 #include <iostream>
 #include <string>
@@ -170,8 +170,8 @@ int main(int argc, char **argv)
                     cout << endl;
                 }
 
+                // Initialize variables we will be using
                 int n = str.size();
-
                 flag = false;
                 char last[n];
                 int charCount = 0;
@@ -182,19 +182,23 @@ int main(int argc, char **argv)
 
                 for (int i = 0; i < n; i++)
                 {
+                    // If j is even then we are looking for an Int
                     if (j % 2 == 0)
                     {
+                        // This will check to see if the number of letters is more than 9
                         if (str[i + 1] != ' ')
                         {
                             bigNum = str[i];
                             int s = 1;
+                            // While loop that ends when there is a space, allows for multiple digit numbers
                             while (str[i + s] != ' ')
                             {
                                 bigNum = bigNum + str[i + s];
                                 s++;
                             }
+                            // increment i for the amount of times the while loop went - 1
                             i += (s - 1);
-                            num = stoi(bigNum);
+                            num = stoi(bigNum); // typecast bigNum from String to Int
                             sum += num;
                         }
                         else
@@ -203,7 +207,7 @@ int main(int argc, char **argv)
                             sum += atoi(&str[i]); // keeps track of total length of str array
                         }
                     }
-                    else
+                    else // j is odd so we are looking for a char
                     {
                         if (str[i] != ' ')
                         {
@@ -247,7 +251,7 @@ int main(int argc, char **argv)
                     // Check keyword for which sorting algorithm to use
                     if (keyword == "quick")
                     {
-                        quickSort(&first[0], 0, sum - 1);
+                        quickSort(&first[0], 0, sum - 1); // Pass the address of our string array
                     }
                     else if (keyword == "insertion")
                     {
@@ -260,6 +264,7 @@ int main(int argc, char **argv)
                     }
 
                     char letter;
+                    // Getting the indices
                     for (int i = 0; i < sum; i++)
                     {
                         letter = first[i];
@@ -272,6 +277,7 @@ int main(int argc, char **argv)
                             }
                         }
                     }
+                    // Print our decoded line
                     printDecodedLine(&first[0], &next[0], sum, index);
                 }
             }

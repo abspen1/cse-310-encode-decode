@@ -245,12 +245,12 @@ int main(int argc, char **argv)
                     for (int i = 0; i < sum; i++)
                     {
                         first[i] = last[i];
-                        next[i] = -1; // reason for this, numNotInNext was giving false positives
+                        next[i] = -1; // reason for this, numNotInNext method was giving false positives
                     }
                     // Check keyword for which sorting algorithm to use
                     if (keyword == "quick")
                     {
-                        quickSort(&first[0], 0, sum - 1);
+                        quickSort(&first[0], 0, sum - 1); // Pass the address of our string array
                     }
                     else if (keyword == "insertion")
                     {
