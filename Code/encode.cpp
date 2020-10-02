@@ -49,7 +49,7 @@ void swap(string *a, string *b)
     @param left smaller integer
     @param right larger integer
 */
-int partition(string str2[], int left, int right)
+int partition(string *str2, int left, int right)
 {
     string pivot = str2[right]; // pivot
     int i = (left - 1);
@@ -75,7 +75,7 @@ int partition(string str2[], int left, int right)
     @param left starting index
     @param right largest index
 */
-void quickSort(string str2[], int left, int right)
+void quickSort(string *str2, int left, int right)
 {
     if (left < right)
     {
@@ -181,12 +181,14 @@ int main(int argc, char **argv)
             }
 
             int originalLocation;
+            string current;
             string last[n];
 
             for (int i = 0; i < n; ++i)
             {
+                current = str2[i];
                 // append our string last with the final character in str2
-                last[i] = str2[i].back();
+                last[i] = current[(n-1)];
                 // check if the current str2 is our original string
                 if (str2[i] == original)
                 {
